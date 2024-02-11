@@ -9,6 +9,9 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background-image: url('sekai.webp'); /* 添加背景圖片 */
+            background-size: cover;
+            background-position: center;
         }
         #container {
             width: 352.5px; /* 模板中的寬度 */
@@ -16,20 +19,27 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* 背景色，可根據需要調整透明度 */
         }
         .title {
             font-size: 24px;
             margin-bottom: 20px;
+            font-weight: bold; /* 加粗標題文字 */
         }
         .rank-item {
             margin: 10px 0;
-            font-size: 20px; /* 基礎字體大小，會根據排名調整 */
+            font-size: 24px; /* 基礎字體大小 */
         }
         .rank-item:first-child {
-            font-size: 30px;
+            font-size: 24px; /* 第一名字體大小 */
+            font-weight: bold; /* 加粗第一名文字 */
         }
-        .rank-item:nth-child(2) {
-            font-size: 27px;
+        .rank-item:nth-child(n+3):nth-child(-n+1) {
+            font-size: 16px; /* 第三名~第五名字體大小 */
+        }
+        .rank-item:last-child {
+            font-size: 30px; /* 最後一名字體大小 */
+            font-weight: bold;
         }
     </style>
 </head>
@@ -44,7 +54,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-database.js"></script>
 
     <script>
-        // Your web app's Firebase configuration
+        // Your Firebase configuration
         var firebaseConfig = {
         apiKey: "AIzaSyA8U7xhQkREL8-8oiMsGLB9HTbLv6_uR-Q",
         authDomain: "mgtest-f4c23.firebaseapp.com",
@@ -83,7 +93,7 @@
         }
 
         loadRanking(); // 初始載入排名
-        setInterval(loadRanking, 50); // 每五秒刷新一次排名
+        setInterval(loadRanking, 5000); // 每五秒刷新一次排名
     </script>
 </body>
 </html>
