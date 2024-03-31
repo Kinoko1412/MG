@@ -22,14 +22,36 @@
 
 <body inmaintabuse="1">
     <div id="overlay" class="md-overlay"></div>
-    <header id="header" class="header onMv" itemscope="" itemtype="https://schema.org/WPHeader">
+    <header id="header" class="header" itemscope="" itemtype="https://schema.org/WPHeader">
         <div class="header__frame flex bet str">
             <div class="header__left flex vcenter">
-                <a class="headerLogo flex vcenter op" href="zh/index.html">
-                    <img class="headerLogo__img" src="img/top_mv_logo.png" srcset="img/logo_sp.png 768w" alt="Project SEKAI WORLD CHAMPIONSHIP 2024 SPRING">
+                <a class="headerLogo flex vcenter op" href="../zh/index.html">
+                    <img class="headerLogo__img" src="../img/logo.png" srcset="../img/logo_sp.png 768w" alt="Project SEKAI WORLD CHAMPIONSHIP 2024 SPRING">
                 </a>
             </div>
             <div class="header__right flex vcenter">
+                <nav class="pc header__nav headerNav flex">
+                    <a href="index1.html#about" class="headerNav__link mplus flex vcenter hcenter md-uline">
+                        大會概要
+                    </a>
+                    <a href="../zh/rule/index.html" class="headerNav__link mplus flex vcenter hcenter md-uline">
+                        比賽規則
+                    </a>
+                        <a href="../zh/entry/index.html" class="headerNav__link mplus flex vcenter hcenter md-uline">
+                        報名入口
+                    </a>
+                    <a href="../zh/regulation/index.html" class="headerNav__link mplus flex vcenter hcenter md-uline">
+                        大賽條款
+                    </a>
+                </nav>
+                <div class="headerTranslate">
+                    <select class="headerTranslate__select" onchange="location.href=value;">
+                        <option value="../index.html">日本語</option>
+                        <option value="../en/index.html">English</option>
+                        <option value="../ko/index.html">한국어</option>
+                        <option value="../zh/index.html" selected="">繁體中文</option>
+                    </select>
+                </div>
                 <button type="button" id="gNav-open" class="sp gNavBtn">
                     <div class="gNavBtn__box">
                         <span class="gNavBtn__bar"></span>
