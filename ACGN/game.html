@@ -61,6 +61,7 @@
         <button onclick="generateBracket()">增加節點</button>
         <div id="participants"></div>
         <svg id="bracket" width="960" height="500"></svg>
+        <audio id="awardSound" src="Yeah.mp3"></audio> <!-- 添加音频元素 -->
     </div>
 
     <script>
@@ -69,6 +70,12 @@
         function addParticipant() {
             const nameInput = document.getElementById('name');
             const name = nameInput.value.trim();
+            if (name === "頒獎音樂") {
+                const audio = document.getElementById('awardSound');
+                audio.play();
+                nameInput.value = '';
+                return; // 不添加参赛选手
+            }
             if (name) {
                 participants.push(name);
                 nameInput.value = '';
