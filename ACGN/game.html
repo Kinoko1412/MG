@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tournament Bracket</title>
+    <title>ACGN社第一屆世界計畫大賽</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         body {
@@ -11,9 +11,31 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: url('Wiki-background.webp') no-repeat center center fixed;
+            background-size: cover;
+            background-color: #bacdd8; 
+            margin: 0;
+            padding: 0;
+        }
+        #header {
+            width: 100%;
+            text-align: center;
+            background: url('Newhead.webp') no-repeat center center;
+            background-size: contain;
+            height: 200px; /* Adjust this value based on your header image's height */
+        }
+        #content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
         }
         #bracket {
             margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .node circle {
             fill: #fff;
@@ -25,18 +47,21 @@
         }
         .link {
             fill: none;
-            stroke: #ccc;
+            stroke: #000000;
             stroke-width: 2px;
         }
     </style>
 </head>
 <body>
-    <h1>Tournament Bracket Generator</h1>
-    <input type="text" id="name" placeholder="Enter participant name">
-    <button onclick="addParticipant()">Add Participant</button>
-    <button onclick="generateBracket()">Generate Bracket</button>
-    <div id="participants"></div>
-    <svg id="bracket" width="960" height="500"></svg>
+    <div id="header"></div>
+    <div id="content">
+        <h1>ACGN社第一屆世界計畫大賽</h1>
+        <input type="text" id="name" placeholder="請輸入參賽選手姓名">
+        <button onclick="addParticipant()">增加參賽選手</button>
+        <button onclick="generateBracket()">增加節點</button>
+        <div id="participants"></div>
+        <svg id="bracket" width="960" height="500"></svg>
+    </div>
 
     <script>
         let participants = [];
