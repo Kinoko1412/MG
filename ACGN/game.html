@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Bracket</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #bracket {
+            margin-top: 20px;
+        }
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 3px;
+        }
+        .node text {
+            font: 12px sans-serif;
+        }
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 2px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tournament Bracket Generator</h1>
+    <input type="text" id="name" placeholder="Enter participant name">
+    <button onclick="addParticipant()">Add Participant</button>
+    <button onclick="generateBracket()">Generate Bracket</button>
+    <div id="participants"></div>
+    <svg id="bracket" width="960" height="500"></svg>
+
+    <script>
+        let participants = [];
+
+        function addParticipant() {
+            const nameInput = document.getElementById('name');
+            const name = nameInput.value.trim();
+            if (name) {
+                participants.push(name);
+                nameInput.value = '';
+                displayParticipants();
+            }
+        }
+
+        function displayParticipants() {
+            const participantsDiv = document.getElementById('participants');
+            participantsDiv.innerHTML = '';
+            participants.forEach((participant, index) => {
+                const p = document.createElement('p');
+                p.textContent = `${index + 1}. ${participant}`;
+                participantsDiv.appendChild(p);
+            });
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function generateBracket() {
+            if (participants.length < 2) {
+                alert('Please add at least 2 participants.');
+                return;
+            }
+
+            shuffle(participants);
+            const svg = d3.select("#bracket");
+            svg.selectAll("*").remove();
+
+            const width = 960;
+            const height = 500 + participants.length * 40;
+
+            svg.attr("width", width)
+               .attr("height", height);
+
+            const tree = d3.tree().size([height, width - 160]);
+            const root = d3.hierarchy(buildTree(participants));
+
+            tree(root);
+
+            const g = svg.append("g").attr("transform", "translate(40,0)");
+
+            const link = g.selectAll(".link")
+                .data(root.descendants().slice(1))
+                .enter().append("path")
+                .attr("class", "link")
+                .attr("d", d => `
+                    M${d.x},${d.y}
+                    C${d.x},${(d.y + d.parent.y) / 2}
+                     ${d.parent.x},${(d.y + d.parent.y) / 2}
+                     ${d.parent.x},${d.parent.y}
+                `);
+
+            const node = g.selectAll(".node")
+                .data(root.descendants())
+                .enter().append("g")
+                .attr("class", d => `node ${d.children ? "node--internal" : "node--leaf"}`)
+                .attr("transform", d => `translate(${d.x},${d.y})`)
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+            node.append("circle")
+                .attr("r", 10);
+
+            node.append("text")
+                .attr("dy", 3)
+                .attr("x", d => d.children ? -12 : 12)
+                .style("text-anchor", d => d.children ? "end" : "start")
+                .text(d => d.data.name);
+        }
+
+        function buildTree(participants) {
+            if (participants.length === 1) return { name: participants[0] };
+
+            const midpoint = Math.ceil(participants.length / 2);
+            return {
+                name: "",
+                children: [
+                    buildTree(participants.slice(0, midpoint)),
+                    buildTree(participants.slice(midpoint))
+                ]
+            };
+        }
+
+        function dragstarted(event, d) {
+            d3.select(this).raise().attr("stroke", "black");
+        }
+
+        function dragged(event, d) {
+            d3.select(this).attr("transform", `translate(${event.x},${event.y})`);
+        }
+
+        function dragended(event, d) {
+            d3.select(this).attr("stroke", null);
+            d.x = event.x;
+            d.y = event.y;
+        }
+    </script>
+</body>
+</html>
