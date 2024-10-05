@@ -23,11 +23,33 @@
         img {
             max-width: 100%;
             height: auto;
+            cursor: pointer; /* 鼠標變成手形 */
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-10px); }
+            50% { transform: translateY(10px); }
+            75% { transform: translateY(-10px); }
+        }
+        .shaking {
+            animation: shake 0.2s infinite;
         }
     </style>
 </head>
 <body>
     <h1>我的子宮在顫抖</h1>
-    <img src="1.png" alt="圖片">
+    <img src="1.png" alt="圖片" id="myImage" onclick="shakeImage()">
+
+    <script>
+        function shakeImage() {
+            const img = document.getElementById('myImage');
+            img.classList.add('shaking'); // 添加抖動效果
+
+            // 兩秒後移除抖動效果
+            setTimeout(() => {
+                img.classList.remove('shaking');
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
